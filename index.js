@@ -35,6 +35,56 @@ const departmentInfo = [
     }
 ]
 
+const roleInfo = [
+
+    {
+        type: 'input',
+        name: 'title',
+        message: 'What is the roles\'s title?',
+        validate: validateMessage
+    },
+    {
+        type: 'input',
+        name: 'salary',
+        message: 'What is the roles\'s salary?',
+        validate: validateMessage
+    },
+    {
+        type: 'input',
+        name: 'department',
+        message: 'What is the roles\'s department?',
+        validate: validateMessage
+    } 
+
+]
+
+const employeeInfo = [
+    {
+        type: 'input',
+        name: 'firstName',
+        message: 'What is the employee\'s first name?',
+        validate: validateMessage
+    },
+    {
+        type: 'input',
+        name: 'lastName',
+        message: 'What is the employee\'s last name?',
+        validate: validateMessage
+    },
+    {
+        type: 'input',
+        name: 'role',
+        message: 'What is the employee\'s role?',
+        validate: validateMessage
+    },
+    {
+        type: 'input',
+        name: 'manager',
+        message: 'What is the employee\'s manager ID ?',
+        validate: validateMessage
+    },
+]
+
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -58,12 +108,16 @@ async function init() {
             renderEmployeeData();
         } 
         else if (answers.start === 'add a department') {
-            let department = await inquirer.prompt(departmentInfo)
-            department = department.start
+            let department = await inquirer.prompt(departmentInfo);
+            department = department.department;
             addAdepartment(department);
         }   
         else if (answers.start === 'add a role') {
-            addArole();
+            let role = await inquirer.prompt(roleInfo);
+            const title = role.title;
+            const salary = parseFloat(role.salary);
+            const departmentName = role.department;
+            addArole(title, salary, departmentName);
         }
         else if (answers.start === 'add an employee') {
             AddEmployee();
@@ -110,8 +164,9 @@ function addAdepartment(department) {
     );  
 };
 
-function addArole() {
-    db.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?);', ['placeholder','10', '10' ] ,(err, result) => {
+function addArole(title, salary, departmentName) {
+    db.query(`INSERT INTO role (title, salary) VALUES (?, ?);
+              INSERT INTO department (name) VALUES (?);`, [title, salary, departmentName], (err, result) => {
         err ? console.log(err) : console.log(result)}
     );
 };
