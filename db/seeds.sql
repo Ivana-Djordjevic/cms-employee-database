@@ -9,21 +9,21 @@ INSERT INTO department (name) VALUES
                         ('quality assurance');
 
 INSERT INTO role (title, salary, department_id) VALUES
-                ('financial analyst', 70000.00, 1),
+                ('financial_analyst', 70000.00, 1),
                 ('accountant', 70000.00, 1),
-                ('legal scretary', 40000.00, 2),
+                ('legal_scretary', 40000.00, 2),
                 ('attorney', 80000.00, 2),
                 ('recruiter', 30000.00, 3),
-                ('HR coordinator', 40000.00, 3),
-                ('HR manager', 60000.00, 3),
-                ('computer engineer', 80000.00, 4),
-                ('mechanical engineer', 72000.00, 4),
-                ('chemical engineer', 60000.00, 4), 
-                ('director', 100000.00, 4), 
+                ('HR_coordinator', 40000.00, 3),
+                ('HR_manager', 60000.00, 3),
+                ('computer_engineer', 80000.00, 4),
+                ('mechanical_engineer', 72000.00, 4),
+                ('chemical_engineer', 60000.00, 4), 
+                ('engineering_director', 100000.00, 4), 
                 ('director', 100000.00, 5), 
-                ('project manager', 66000.00, 5),
-                ('quality director', 120000.00, 6), 
-                ('quality analysit', 40000.00, 6); 
+                ('project_manager', 66000.00, 5),
+                ('quality_director', 120000.00, 6), 
+                ('quality_analysit', 40000.00, 6); 
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
                         ('Stella', 'Bella', 1, 101),
