@@ -1,71 +1,86 @@
 // packages needed for this application
 const inquirer = require('inquirer');
 
-const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate } = require('./lib/inquire');
-const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment} = require('./lib/render')
+const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate, employeeDeletion } = require('./lib/inquire');
+const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment, renderBudgetOfEachDepartment, deleteEmployee } = require('./lib/render')
 
 //returns user's inquiries
 async function init() {
     
     try {
-        let answers = await inquirer.prompt(questions);
+        const answers = await inquirer.prompt(questions);
 
         if (answers.start === 'view all departments') {
             renderDepartmentData();
             init();
-        } 
-        else if (answers.start === 'view all roles') {
+        } else if (answers.start === 'view all roles') {
             renderRoleData();
             init();
-        } 
-        else if (answers.start === 'view all employees') {
+        } else if (answers.start === 'view all employees') {
             renderEmployeeData();
             init();
-        } 
-        else if (answers.start === 'add a department') {
-            let department = await inquirer.prompt(departmentInfo);
-            department = department.department;
+        } else if (answers.start === 'add a department') {
+            const addDepartment = await inquirer.prompt(departmentInfo);
+
+            const department = addDepartment.department;
+
             addAdepartment(department);
             init();
-        }   
-        else if (answers.start === 'add a role') {
-            let role = await inquirer.prompt(roleInfo);
+        } else if (answers.start === 'add a role') {
+            const role = await inquirer.prompt(roleInfo);
+
             const title = role.title;
             const salary = parseFloat(role.salary);
             const departmentName = role.department;
+
             addArole(title, salary, departmentName);
             init();
-        }
-        else if (answers.start === 'add an employee') {
-            let employee = await inquirer.prompt(employeeInfo);
+        } else if (answers.start === 'add an employee') {
+            const employee = await inquirer.prompt(employeeInfo);
+
             const firstName = employee.firstName;
             const lastName = employee.lastName;
             const role = employee.role;
             const manager = employee.manager;
             const roleId = determineRoleId(role);
+
             AddEmployee(firstName, lastName, roleId, manager);
             init();
-        }
-        else if (answers.start === 'update an employee role') {
+        } else if (answers.start === 'update an employee role') {
             const name = await inquirer.prompt(employeeUpdate);
+
             const employeeName = name.employee;
             const role = name.role;
             const employeeId = determineEmployeedID(employeeName);
             const roleID = determineRoleId(role);
+
             updateEmployee(roleID, employeeId);
             init();
         } else if (answers.start === 'update an employee\'s manager') {
-            const managerUpdate = await inquirer.prompt(employeeManagerUpdate)
+            const managerUpdate = await inquirer.prompt(employeeManagerUpdate);
+
             const employeeName = managerUpdate.employee; 
             const newManager = managerUpdate.manager;  
             const employeeId = determineEmployeedID(employeeName);
-            await updateEmployeesManager(newManager, employeeId);
+
+            updateEmployeesManager(newManager, employeeId);
             init();         
         } else if (answers.start === 'view employees by managers') {
             renderEmployeesByManagers();
             init();
         } else if (answers.start === 'view employees by department') {
             renderEmployeesByDepartment();
+            init();
+        } else if (answers.start === 'view total budget of each department') {
+            renderBudgetOfEachDepartment();
+            init();
+        } else if (answers.start === 'delete an employee') {
+            const employeeToDelete = await inquirer.prompt(employeeDeletion);
+
+            const employeeName = employeeToDelete.employee;
+            const employeeId = determineEmployeedID(employeeName);
+
+            deleteEmployee(employeeId);
             init();
         } else if (answers.start === 'quit') {
             //code to exit out of application... somehow 
