@@ -1,8 +1,8 @@
 // packages needed for this application
 const inquirer = require('inquirer');
 
-const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate } = require('./lib/inquire');
-const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID } = require('./lib/render')
+const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate } = require('./lib/inquire');
+const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeeByManagers} = require('./lib/render')
 
 //returns user's answers
 async function init() {
@@ -53,6 +53,16 @@ async function init() {
             const employeeId = determineEmployeedID(employeeName);
             const roleID = determineRoleId(role);
             updateEmployee(roleID, employeeId);
+            init();
+        } else if (answers.start === 'update an employee\'s manager') {
+            const managerUpdate = await inquirer.prompt(employeeManagerUpdate)
+            const employeeName = managerUpdate.employee; 
+            const newManager = managerUpdate.manager;  
+            const employeeId = determineEmployeedID(employeeName);
+            await updateEmployeesManager(newManager, employeeId);
+            init();         
+        } else if (answers.start === 'view employees by managers') {
+            renderEmployeeByManagers();
             init();
         } else if (answers.start === 'quit') {
             //code to exit out of application... somehow 
