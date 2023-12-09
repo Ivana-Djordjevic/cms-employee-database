@@ -2,9 +2,9 @@
 const inquirer = require('inquirer');
 
 const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate } = require('./lib/inquire');
-const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeeByManagers} = require('./lib/render')
+const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment} = require('./lib/render')
 
-//returns user's answers
+//returns user's inquiries
 async function init() {
     
     try {
@@ -62,7 +62,10 @@ async function init() {
             await updateEmployeesManager(newManager, employeeId);
             init();         
         } else if (answers.start === 'view employees by managers') {
-            renderEmployeeByManagers();
+            renderEmployeesByManagers();
+            init();
+        } else if (answers.start === 'view employees by department') {
+            renderEmployeesByDepartment();
             init();
         } else if (answers.start === 'quit') {
             //code to exit out of application... somehow 
@@ -72,5 +75,6 @@ async function init() {
     }
 };
 
+//initialize upon start 
 init();
 
