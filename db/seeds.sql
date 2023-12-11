@@ -26,19 +26,20 @@ INSERT INTO role (title, salary, department_id) VALUES
                 ('quality_analysit', 40000.00, 6); 
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
-                        ('Stella', 'Bella', 1, 101),
-                        ('Emma', 'Mella', 2, 101),
-                        ('Donna', 'Tella', 3, 101),
-                        ('Maya', 'Zara', 4, 101),
-                        ('Clara', 'Luna', 5, 101),
-                        ('Ava', 'Gemma', 6, 101),
                         ('Layla', 'Nova', 7, null),
-                        ('Mira', 'Tala', 8, 201),
-                        ('Anya', 'Lara', 9, 201),
-                        ('Neva', 'Gina', 10, 201), 
                         ('Flora', 'Myra', 11, null), 
-                        ('Sasha', 'Yara', 12, null), 
-                        ('Nalla', 'Lyra', 13, 301), 
-                        ('Ella', 'Rhea', 14, 301), 
-                        ('Kara', 'Zora', 15, 301); 
+                        ('Sasha', 'Yara', 12, null);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
+                        ('Stella', 'Bella', 1, 1),
+                        ('Emma', 'Mella', 2, 1),
+                        ('Donna', 'Tella', 3, 1),
+                        ('Maya', 'Zara', 4, 1),
+                        ('Clara', 'Luna', 5, 1),
+                        ('Ava', 'Gemma', 6, 1),
+                        ('Mira', 'Tala', 8, 2),
+                        ('Anya', 'Lara', 9, 2),
+                        ('Neva', 'Gina', 10, 2), 
+                        ('Nalla', 'Lyra', 13, 3), 
+                        ('Ella', 'Rhea', 14, 3), 
+                        ('Kara', 'Zora', 15, 3); 
 

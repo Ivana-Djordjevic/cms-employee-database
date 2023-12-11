@@ -24,8 +24,7 @@ async function init() {
 
             const department = addDepartment.department;
 
-            addAdepartment(department);
-            init();
+            addAdepartment(department, init);
         } else if (answers.start === 'add a role') {
             const role = await inquirer.prompt(roleInfo);
 
@@ -33,8 +32,7 @@ async function init() {
             const salary = parseFloat(role.salary);
             const departmentName = role.department;
 
-            addArole(title, salary, departmentName);
-            init();
+            addArole(title, salary, departmentName, init);
         } else if (answers.start === 'add an employee') {
             const employee = await inquirer.prompt(employeeInfo);
 
@@ -42,29 +40,29 @@ async function init() {
             const lastName = employee.lastName;
             const role = employee.role;
             const manager = employee.manager;
-            const roleId = determineRoleId(role);
+            determineRoleId(role, (roleId) => {
+                AddEmployee(firstName, lastName, roleId, manager, init);
+            });
 
-            AddEmployee(firstName, lastName, roleId, manager);
-            init();
         } else if (answers.start === 'update an employee role') {
             const name = await inquirer.prompt(employeeUpdate);
 
             const employeeName = name.employee;
             const role = name.role;
-            const employeeId = determineEmployeedID(employeeName);
-            const roleID = determineRoleId(role);
-
-            updateEmployee(roleID, employeeId);
-            init();
+            determineEmployeedID(employeeName, (employeeId) => {
+                determineRoleId(role, (roleId) => {
+                    updateEmployee(roleId, employeeId, init);
+                });
+            });
         } else if (answers.start === 'update an employee\'s manager') {
             const managerUpdate = await inquirer.prompt(employeeManagerUpdate);
 
             const employeeName = managerUpdate.employee; 
             const newManager = managerUpdate.manager;  
-            const employeeId = determineEmployeedID(employeeName);
+            determineEmployeedID(employeeName, (employeeId) => {
+               updateEmployeesManager(newManager, employeeId, init);     
+           });
 
-            updateEmployeesManager(newManager, employeeId);
-            init();         
         } else if (answers.start === 'view employees by managers') {
             renderEmployeesByManagers();
             init();
@@ -72,18 +70,16 @@ async function init() {
             renderEmployeesByDepartment();
             init();
         } else if (answers.start === 'view total budget of each department') {
-            renderBudgetOfEachDepartment();
-            init();
+            renderBudgetOfEachDepartment(init);
         } else if (answers.start === 'delete an employee') {
             const employeeToDelete = await inquirer.prompt(employeeDeletion);
 
             const employeeName = employeeToDelete.employee;
-            const employeeId = determineEmployeedID(employeeName);
-
-            deleteEmployee(employeeId);
-            init();
+            determineEmployeedID(employeeName, (employeeId) => {
+                deleteEmployee(employeeId, init);
+            });
         } else if (answers.start === 'quit') {
-            //code to exit out of application... somehow 
+            process.exit(0);
         }
     } catch (err) {
         console.log(`this is your error: ${err}`)
