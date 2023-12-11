@@ -85,7 +85,7 @@ async function init() {
             
             const department = departmentToDelete.department;
             determineDepartmentId(department, (departmentId) => {
-                deleteEntireDepartment(departmentId)
+                deleteEntireDepartment(departmentId, init)
             });
         } else if (answers.start === 'quit') {
             process.exit(0);
