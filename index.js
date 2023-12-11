@@ -1,8 +1,8 @@
 // packages needed for this application
 const inquirer = require('inquirer');
 
-const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate, employeeDeletion } = require('./lib/inquire');
-const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment, renderBudgetOfEachDepartment, deleteEmployee } = require('./lib/render')
+const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate, employeeDeletion, roleDeletion } = require('./lib/inquire');
+const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment, renderBudgetOfEachDepartment, deleteEmployee, deleteRoleAndItsEmployees } = require('./lib/render')
 
 //returns user's inquiries
 async function init() {
@@ -11,14 +11,11 @@ async function init() {
         const answers = await inquirer.prompt(questions);
 
         if (answers.start === 'view all departments') {
-            renderDepartmentData();
-            init();
+            renderDepartmentData(init);
         } else if (answers.start === 'view all roles') {
-            renderRoleData();
-            init();
+            renderRoleData(init);
         } else if (answers.start === 'view all employees') {
-            renderEmployeeData();
-            init();
+            renderEmployeeData(init);
         } else if (answers.start === 'add a department') {
             const addDepartment = await inquirer.prompt(departmentInfo);
 
@@ -64,11 +61,9 @@ async function init() {
            });
 
         } else if (answers.start === 'view employees by managers') {
-            renderEmployeesByManagers();
-            init();
+            renderEmployeesByManagers(init);
         } else if (answers.start === 'view employees by department') {
-            renderEmployeesByDepartment();
-            init();
+            renderEmployeesByDepartment(init);
         } else if (answers.start === 'view total budget of each department') {
             renderBudgetOfEachDepartment(init);
         } else if (answers.start === 'delete an employee') {
@@ -78,14 +73,20 @@ async function init() {
             determineEmployeedID(employeeName, (employeeId) => {
                 deleteEmployee(employeeId, init);
             });
+        } else if (answers.start === 'delete a role and its employee(s)') {
+            const roleToDelete = await inquirer.prompt(roleDeletion);
+
+            const role = roleToDelete.role;
+            determineRoleId(role, (roleId) => {
+                deleteRoleAndItsEmployees(roleId, init);
+            });
         } else if (answers.start === 'quit') {
             process.exit(0);
         }
     } catch (err) {
-        console.log(`this is your error: ${err}`)
+        console.log(`this is your error: ${err}`);
     }
 };
 
 //initialize upon start 
 init();
-
