@@ -1,8 +1,8 @@
 // packages needed for this application
 const inquirer = require('inquirer');
 
-const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate, employeeDeletion, roleDeletion } = require('./lib/inquire');
-const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment, renderBudgetOfEachDepartment, deleteEmployee, deleteRoleAndItsEmployees } = require('./lib/render')
+const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate, employeeDeletion, roleDeletion, deparmentDeletion } = require('./lib/inquire');
+const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, AddEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment, renderBudgetOfEachDepartment, deleteEmployee, deleteRoleAndItsEmployees, determineDepartmentId, deleteEntireDepartment } = require('./lib/render')
 
 //returns user's inquiries
 async function init() {
@@ -79,6 +79,13 @@ async function init() {
             const role = roleToDelete.role;
             determineRoleId(role, (roleId) => {
                 deleteRoleAndItsEmployees(roleId, init);
+            });
+        } else if (answers.start === 'delete an entire department') {
+            const departmentToDelete = await inquirer.prompt(deparmentDeletion);
+            
+            const department = departmentToDelete.department;
+            determineDepartmentId(department, (departmentId) => {
+                deleteEntireDepartment(departmentId)
             });
         } else if (answers.start === 'quit') {
             process.exit(0);
