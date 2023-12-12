@@ -48,7 +48,7 @@ and this information is updated in the database
 
 Walkthrough video:
 
-[walkthrough video link]()
+[walkthrough video link](https://drive.google.com/file/d/1NjiN99HGem0tQTPZkw7OQU6aqWnCykcM/view)
 
 ## Installation
 
