@@ -2,7 +2,7 @@
 const inquirer = require('inquirer');
 
 const { questions, departmentInfo, roleInfo, employeeInfo, employeeUpdate, employeeManagerUpdate, employeeDeletion, roleDeletion, deparmentDeletion } = require('./lib/inquire');
-const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, addEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment, renderBudgetOfEachDepartment, deleteEmployee, deleteRoleAndItsEmployees, determineDepartmentId, deleteEntireDepartment } = require('./lib/render')
+const { renderDepartmentData, renderRoleData, renderEmployeeData, addAdepartment, addArole, addEmployee, determineRoleId, updateEmployee, determineEmployeedID, updateEmployeesManager, renderEmployeesByManagers, renderEmployeesByDepartment, renderBudgetOfEachDepartment, deleteEmployee, deleteRoleAndItsEmployees, determineDepartmentId, deleteEntireDepartment } = require('./lib/render');
 
 //returns user's inquiries
 async function init() {
@@ -61,6 +61,7 @@ async function init() {
 
             const employeeName = managerUpdate.employee; 
             const newManager = managerUpdate.manager;  
+
             const employeeId = await determineEmployeedID(employeeName);
             await updateEmployeesManager(newManager, employeeId);     
             init();
@@ -93,7 +94,7 @@ async function init() {
             
             const department = departmentToDelete.department;
             const departmentId = await determineDepartmentId(department);
-            await deleteEntireDepartment(departmentId)
+            await deleteEntireDepartment(departmentId);
             init();
         } else if (answers.start === 'quit') {
             process.exit(0);
