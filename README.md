@@ -48,6 +48,8 @@ and this information is updated in the database
 
 Walkthrough video:
 
+[cms-employee-database.webm](https://github.com/Ivana-Djordjevic/cms-employee-database/assets/127266659/ed789bf0-b7ac-4a7b-9dc8-1a4b790ab229)
+
 [walkthrough video link](https://drive.google.com/file/d/1NjiN99HGem0tQTPZkw7OQU6aqWnCykcM/view)
 
 ## Installation
