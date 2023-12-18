@@ -36,7 +36,7 @@ async function init() {
             await addArole(title, salary, departmentName);
             init();
         } else if (answers.start === 'add an employee') {
-            const employee = await inquirer.prompt(employeeInfo);
+            const employee = await inquirer.prompt(await employeeInfo());
 
             const firstName = employee.firstName;
             const lastName = employee.lastName;
@@ -47,7 +47,7 @@ async function init() {
             await addEmployee(firstName, lastName, roleId, manager);
             init();
         } else if (answers.start === 'update an employee role') {
-            const name = await inquirer.prompt(employeeUpdate);
+            const name = await inquirer.prompt(await employeeUpdate());
 
             const employeeName = name.employee;
             const role = name.role;
@@ -57,7 +57,7 @@ async function init() {
             await updateEmployee(roleId, employeeId);
             init();
         } else if (answers.start === 'update an employee\'s manager') {
-            const managerUpdate = await inquirer.prompt(employeeManagerUpdate);
+            const managerUpdate = await inquirer.prompt( await employeeManagerUpdate());
 
             const employeeName = managerUpdate.employee; 
             const newManager = managerUpdate.manager;  
@@ -75,7 +75,8 @@ async function init() {
             await renderBudgetOfEachDepartment();
             init();
         } else if (answers.start === 'delete an employee') {
-            const employeeToDelete = await inquirer.prompt(employeeDeletion);
+
+            const employeeToDelete = await inquirer.prompt(await employeeDeletion());
 
             const employeeName = employeeToDelete.employee;
 
@@ -83,14 +84,14 @@ async function init() {
             await deleteEmployee(employeeId);
             init();
         } else if (answers.start === 'delete a role and its employee(s)') {
-            const roleToDelete = await inquirer.prompt(roleDeletion);
+            const roleToDelete = await inquirer.prompt(await roleDeletion());
 
             const role = roleToDelete.role;
             const roleId = await determineRoleId(role);
             await deleteRoleAndItsEmployees(roleId);
             init();
         } else if (answers.start === 'delete an entire department') {
-            const departmentToDelete = await inquirer.prompt(deparmentDeletion);
+            const departmentToDelete = await inquirer.prompt(await deparmentDeletion());
             
             const department = departmentToDelete.department;
             const departmentId = await determineDepartmentId(department);
